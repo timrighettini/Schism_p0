@@ -51,16 +51,34 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        // TODO: Add abilities usage
+
 	    // Do Input Polling
         if (e_PlayerState == playerState.SPLIT)
         {
+            // Movement
             m_LightPlayer.Move(Input.GetAxis("P1_Horizontal"), Input.GetAxis("P1_Vertical"));
-            m_ShadowPlayer.Move(Input.GetAxis("P2_Horizontal"), Input.GetAxis("P2_Vertical"));            
+            m_ShadowPlayer.Move(Input.GetAxis("P2_Horizontal"), Input.GetAxis("P2_Vertical"));
+       
+            // Weapon Pick up
+            if (Input.GetButtonDown("P1_Pickup"))
+            {
+                m_LightPlayer.PickUpWeapon();
+            }
+
+            // Weapon Usage
+
         }
         else if (e_PlayerState == playerState.FUSED)
-        {
-            //TODO: Add fused movement and ability usage
+        {            
+            // Movement
             m_TwilightPlayer.Move(Input.GetAxis("P1_Horizontal"), Input.GetAxis("P1_Vertical"));
+
+            // Weapon Pick up
+
+
+            // Weapon Usage
+
         }
     }
 

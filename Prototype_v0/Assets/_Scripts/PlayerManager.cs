@@ -6,11 +6,11 @@ public class PlayerManager : MonoBehaviour {
     #region public variables
 
     public float m_movementSpeed;
-    public enum playerType { LIGHT, SHADOW, TWILIGHT };
-    public playerType e_PlayerType;
     public float m_HealthMax;
     public float m_HealthToModifyPerSecond;
     public float m_OppositeElementModifier;
+    public enum playerType { LIGHT, SHADOW, TWILIGHT };
+    public playerType e_PlayerType;
 
     #endregion
 
@@ -19,11 +19,13 @@ public class PlayerManager : MonoBehaviour {
     #region private variables
 
     private GameObject m_playerGameobject;
+    private GameObject m_NearWeapon;
+    private GameObject m_EquippedWeapon;
+    private float m_CurrentHealth;
     private bool m_InLightHazard = false;
     private bool m_InShadeHazard = false;
-
-    public float m_CurrentHealth;
-            
+    private bool m_IsNearWeapon = false;
+                   
     #endregion
 
 
@@ -104,6 +106,28 @@ public class PlayerManager : MonoBehaviour {
 
     //-------------------------------------------------------------------------
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Weapon"))
+        {
+            m_IsNearWeapon = true;
+            m_NearWeapon = other.gameObject;
+        }        
+    }
+
+    //-------------------------------------------------------------------------
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Weapon"))
+        {
+            m_IsNearWeapon = false;
+            m_NearWeapon = null;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
     #endregion
 
 
@@ -119,7 +143,29 @@ public class PlayerManager : MonoBehaviour {
 
     public void UseWeapon()
     {
-        // Swing weapon if one is currently held
+        // Swing/Shoot weapon if one is currently held
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void PickUpWeapon()
+    {
+        if (m_IsNearWeapon)
+        {
+            if (m_EquippedWeapon)
+            {
+                DequipWeapon(m_EquippedWeapon);
+            }
+
+            EquipWeapon(m_NearWeapon);
+        }
+        else
+        {
+            if (m_EquippedWeapon)
+            {
+                DequipWeapon(m_EquippedWeapon);
+            }
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -185,7 +231,27 @@ public class PlayerManager : MonoBehaviour {
 
     #region private methods
 
+    private void EquipWeapon(GameObject weapon)
+    {
+        m_EquippedWeapon = weapon;
+        m_EquippedWeapon.transform.parent = this.gameObject.transform;
+        m_EquippedWeapon.rigidbody.isKinematic = true;
 
+        // Same exit condition for exit weapon trigger
+        m_IsNearWeapon = false;
+        m_NearWeapon = null;
+    }
+
+    //-------------------------------------------------------------------------
+
+    private void DequipWeapon(GameObject weapon)
+    {
+        m_EquippedWeapon.rigidbody.isKinematic = false;
+        m_EquippedWeapon.transform.parent = this.gameObject.transform;
+        m_EquippedWeapon = null;
+    }
+
+    //-------------------------------------------------------------------------
 
     #endregion
 }
