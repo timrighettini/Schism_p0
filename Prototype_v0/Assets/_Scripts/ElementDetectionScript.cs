@@ -29,11 +29,15 @@ public class ElementDetectionScript : MonoBehaviour {
         this.renderer.enabled = false;
     }
 
+    //-------------------------------------------------------------------------
+
     // Update is called once per frame
     void Update()
     {
 
     }
+
+    //-------------------------------------------------------------------------
 
     void OnTriggerEnter(Collider other)
     {
@@ -83,6 +87,8 @@ public class ElementDetectionScript : MonoBehaviour {
         }
     }
 
+    //-------------------------------------------------------------------------
+
     void OnTriggerExit(Collider other)
     {
         GameObject player = other.gameObject;
@@ -130,6 +136,8 @@ public class ElementDetectionScript : MonoBehaviour {
             }
         }
     }
+
+    //-------------------------------------------------------------------------
 
     #endregion
 

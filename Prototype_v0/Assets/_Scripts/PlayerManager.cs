@@ -35,6 +35,8 @@ public class PlayerManager : MonoBehaviour {
         m_playerGameobject = this.gameObject;
         m_CurrentHealth = m_HealthMax;
     }
+
+    //-------------------------------------------------------------------------
     
     void FixedUpdate()
     {
@@ -100,6 +102,8 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+    //-------------------------------------------------------------------------
+
     #endregion
 
 
@@ -111,25 +115,69 @@ public class PlayerManager : MonoBehaviour {
         m_playerGameobject.transform.Translate(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
     }
 
+    //-------------------------------------------------------------------------
+
     public void UseWeapon()
     {
         // Swing weapon if one is currently held
     }
+
+    //-------------------------------------------------------------------------
 
     public void SetInShadeHazard(bool val)
     {
         m_InShadeHazard = val;
     }
 
+    //-------------------------------------------------------------------------
+
     public void SetInLightHazard(bool val)
     {
         m_InLightHazard = val;
     }
 
+    //-------------------------------------------------------------------------
+
     public float GetCurrentHealth()
     {
         return m_CurrentHealth;
     }
+
+    //-------------------------------------------------------------------------
+
+    public void MinusCurrentHealth(float minusVal)
+    {
+        if (minusVal < 0)
+        {
+            Debug.Log("ERROR: Cannot minus health with a negative value");
+            return;
+        }
+
+        m_CurrentHealth -= minusVal;
+        if (m_CurrentHealth < 0)
+        {
+            m_CurrentHealth = 0;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void PlusCurrentHealth(float plusVal)
+    {
+        if (plusVal < 0)
+        {
+            Debug.Log("ERROR: Cannot plus health with a negative value");
+            return;
+        }
+
+        m_CurrentHealth += plusVal;
+        if (m_CurrentHealth > m_HealthMax)
+        {
+            m_CurrentHealth = m_HealthMax;
+        }
+    }
+
+    //-------------------------------------------------------------------------
 
     #endregion
 

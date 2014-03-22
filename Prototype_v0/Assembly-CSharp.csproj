@@ -46,6 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\_Scripts\BasicEnemyBehavior.cs" />
+     <Compile Include="Assets\_Scripts\ConventionTamplate.cs" />
      <Compile Include="Assets\_Scripts\ElementDetectionScript.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\PlayerManager.cs" />

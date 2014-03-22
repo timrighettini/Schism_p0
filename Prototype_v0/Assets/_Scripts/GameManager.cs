@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
         m_ShadowPlayer = GameObject.FindGameObjectWithTag("ShadowPlayer").GetComponent<PlayerManager>();
         m_TwilightPlayer = GameObject.FindGameObjectWithTag("TwilightPlayer").GetComponent<PlayerManager>();
 	}
+
+    //-------------------------------------------------------------------------
 	
 	// Update is called once per frame
 	void Update () {
@@ -61,6 +63,8 @@ public class GameManager : MonoBehaviour
             m_TwilightPlayer.Move(Input.GetAxis("P1_Horizontal"), Input.GetAxis("P1_Vertical"));
         }
     }
+
+    //-------------------------------------------------------------------------
 
     void OnGUI()
     {
@@ -98,6 +102,8 @@ public class GameManager : MonoBehaviour
             GUI.DrawTexture(new Rect(Health_TopLeftOrigin.x, Health_TopLeftOrigin.y, Health_WidthHeight.x * (m_TwilightPlayer.GetCurrentHealth() / m_TwilightPlayer.m_HealthMax), Health_WidthHeight.y), Health_Twilight_FG_Texture, ScaleMode.ScaleAndCrop, true, 0);
         }
     }
+
+    //-------------------------------------------------------------------------
 
     #endregion
 }
