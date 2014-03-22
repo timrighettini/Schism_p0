@@ -26,7 +26,7 @@ public class ElementDetectionScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        //this.renderer.enabled = false;
+        this.renderer.enabled = false;
     }
 
     // Update is called once per frame
@@ -37,65 +37,97 @@ public class ElementDetectionScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("LightPlayer"))
+        GameObject player = other.gameObject;
+        PlayerManager playerManager = player.GetComponent<PlayerManager>();
+
+        if (player.CompareTag("LightPlayer"))
         {
             if (e_ElementState == elementState.SHADOW)
             {
                 Debug.Log("Light in Shadow");
+                playerManager.SetInShadeHazard(true);
             }
             else
             {
                 Debug.Log("Light in Light");
+                playerManager.SetInLightHazard(true);
             }
         }
 
-        else if (other.gameObject.CompareTag("ShadowPlayer"))
+        else if (player.CompareTag("ShadowPlayer"))
         {
             if (e_ElementState == elementState.SHADOW)
             {
                 Debug.Log("Shadow in Shadow");
+                playerManager.SetInShadeHazard(true);
             }
             else
             {
                 Debug.Log("Shadow in Light");
+                playerManager.SetInLightHazard(true);
             }
         }
 
-        else if (other.gameObject.CompareTag("TwilightPlayer"))
-        {
-            Debug.Log("Twilight in either light or shadow");
+        else if (player.CompareTag("TwilightPlayer"))
+        {            
+            if (e_ElementState == elementState.SHADOW)
+            {
+                Debug.Log("Twilight in Shadow");
+                playerManager.SetInShadeHazard(true);
+            }
+            else
+            {
+                Debug.Log("Twilight in Light");
+                playerManager.SetInLightHazard(true);
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("LightPlayer"))
+        GameObject player = other.gameObject;
+        PlayerManager playerManager = player.GetComponent<PlayerManager>();
+        
+        if (player.CompareTag("LightPlayer"))
         {
             if (e_ElementState == elementState.SHADOW)
             {
                 Debug.Log("Light out of Shadow");
+                playerManager.SetInShadeHazard(false);
             }
             else
             {
                 Debug.Log("Light out of Light");
+                playerManager.SetInLightHazard(false);
             }
         }
 
-        else if (other.gameObject.CompareTag("ShadowPlayer"))
+        else if (player.CompareTag("ShadowPlayer"))
         {
             if (e_ElementState == elementState.SHADOW)
             {
                 Debug.Log("Shadow out of Shadow");
+                playerManager.SetInShadeHazard(false);
             }
             else
             {
                 Debug.Log("Shadow out of Light");
+                playerManager.SetInLightHazard(false);
             }
         }
 
-        else if (other.gameObject.CompareTag("TwilightPlayer"))
+        else if (player.CompareTag("TwilightPlayer"))
         {
-            Debug.Log("Twilight out of either light or shadow");
+            if (e_ElementState == elementState.SHADOW)
+            {
+                Debug.Log("Twilight out of Shadow");
+                playerManager.SetInShadeHazard(false);
+            }
+            else
+            {
+                Debug.Log("Twilight out of Light");
+                playerManager.SetInLightHazard(false);
+            }
         }
     }
 
