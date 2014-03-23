@@ -8,6 +8,9 @@ public class BasicEnemyBehavior : MonoBehaviour {
     public GameObject m_Target;    
     public float m_SpeedPerSecond;
     public string m_TagOfTarget;
+    public float m_DamageToTake;
+    public float m_PlayerPushBackMagnitude;
+    public float m_DeathForce;
 
     #endregion
 
@@ -63,11 +66,23 @@ public class BasicEnemyBehavior : MonoBehaviour {
         forwardNoY.y = 0;
         m_ThisTransform.forward = forwardNoY;
         
-
         m_ThisTransform.position += (forwardNoY * m_SpeedPerSecond * Time.deltaTime);
     }
 
     //-------------------------------------------------------------------------
+    
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.name.Contains("Player"))
+        {
+            PlayerManager player = other.gameObject.GetComponent<PlayerManager>();
+            player.MinusCurrentHealth(m_DamageToTake);
+            other.gameObject.rigidbody.AddForce(Vector3.up * m_PlayerPushBackMagnitude);
+            other.gameObject.rigidbody.AddForce(transform.forward * m_PlayerPushBackMagnitude);
+        }
+    }
+
+    //-------------------------------------------------------------------------    
 
     #endregion
 
@@ -77,11 +92,20 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     #endregion
 
-
+    public void DestroyEnemy()
+    {
+        Destroy(this.gameObject);
+        //transform.rigidbody.AddForce(-transform.forward * m_DeathForce);
+        //StartCoroutine("KillEnemy");
+    }
 
     #region private methods
 
-
+    IEnumerator KillEnemy()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Destroy(this.gameObject);
+    }
 
     #endregion
 }

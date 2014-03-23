@@ -47,6 +47,15 @@ public class WeaponScript : MonoBehaviour
 
     }
 
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy") && e_PickupState != PickupState.ON_GROUND)
+        {
+            BasicEnemyBehavior enemy = other.gameObject.GetComponent<BasicEnemyBehavior>();
+            enemy.DestroyEnemy();
+        }
+    }
+
 
     #endregion
 

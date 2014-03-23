@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour {
     //-------------------------------------------------------------------------
     
     void FixedUpdate()
-    {
+    {        
         if (m_InLightHazard)
         {
             if (e_PlayerType == playerType.SHADOW)
@@ -139,13 +139,59 @@ public class PlayerManager : MonoBehaviour {
 
     public void Move(float dx, float dy)
     {        
-        m_playerGameobject.transform.Translate(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
+        m_playerGameobject.transform.position += new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
+        if (dy > 0)
+        {
+            if (dx > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 45, 0);
+            }
+            else if (dx < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -45, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+        else if (dy < 0)
+        {
+            if (dx > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 135, 0);
+            }
+            else if (dx < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -135, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+        else
+        {
+            if (dx < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, -90, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+        }
     }
 
     //-------------------------------------------------------------------------
 
     public void UseWeapon()
-    {        
+    {
+        if (!m_EquippedWeapon)
+        {
+            return;
+        }
+        
         if (m_EquippedWeaponScript.e_WeaponType == WeaponScript.WeaponType.MELEE)
         {
             // Swing the weapon
@@ -186,6 +232,7 @@ public class PlayerManager : MonoBehaviour {
     {
         if (m_IsNearWeapon)
         {
+            print("here1");
             if (m_EquippedWeapon && m_EquippedWeaponScript.e_PickupState != WeaponScript.PickupState.IN_USE)
             {
                 DequipWeapon(m_EquippedWeapon);
@@ -195,6 +242,7 @@ public class PlayerManager : MonoBehaviour {
         }
         else
         {
+            print("here2");
             if (m_EquippedWeapon && m_EquippedWeaponScript.e_PickupState != WeaponScript.PickupState.IN_USE)
             {
                 DequipWeapon(m_EquippedWeapon);
