@@ -6,10 +6,19 @@ public class WeaponScript : MonoBehaviour
 
     #region public variables
 
-    public float m_Damage;
-    public float m_UsageSpeed;
+    public Vector3 m_BaseRotation = Vector3.zero;
+
+    public Vector3 m_PlacementOffset = Vector3.zero;
+    public Vector3 m_AnimationOffset = Vector3.zero;
+    
     public enum WeaponType { MELEE, RANGED };
     public WeaponType e_WeaponType;
+
+    public enum PickupState { ON_GROUND, PICKED_UP, IN_USE };
+    public PickupState e_PickupState = PickupState.ON_GROUND;    
+
+    public float m_Damage;
+    public float m_UsageSpeed;    
     
     #endregion
 
@@ -17,8 +26,7 @@ public class WeaponScript : MonoBehaviour
 
     #region private variables
         
-    private enum PickupState { ON_GROUND, PICKED_UP, IN_USE };
-    PickupState e_PickupState = PickupState.ON_GROUND;    
+    
 
     #endregion
 

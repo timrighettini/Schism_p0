@@ -66,7 +66,21 @@ public class GameManager : MonoBehaviour
                 m_LightPlayer.PickUpWeapon();
             }
 
+            if (Input.GetButtonDown("P2_Pickup"))
+            {
+                m_ShadowPlayer.PickUpWeapon();
+            }
+
             // Weapon Usage
+            if (Input.GetButtonDown("P1_UseWeapon"))
+            {
+                m_LightPlayer.UseWeapon();
+            }
+
+            if (Input.GetButtonDown("P2_UseWeapon"))
+            {
+                m_ShadowPlayer.UseWeapon();
+            }
 
         }
         else if (e_PlayerState == playerState.FUSED)
@@ -74,11 +88,17 @@ public class GameManager : MonoBehaviour
             // Movement
             m_TwilightPlayer.Move(Input.GetAxis("P1_Horizontal"), Input.GetAxis("P1_Vertical"));
 
-            // Weapon Pick up
-
+            // Pickup Weapon
+            if (Input.GetButtonDown("P1_Pickup"))
+            {
+                m_TwilightPlayer.PickUpWeapon();
+            }
 
             // Weapon Usage
-
+            if (Input.GetButtonDown("P1_UseWeapon"))
+            {
+                m_TwilightPlayer.UseWeapon();
+            }
         }
     }
 

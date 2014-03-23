@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour {    
 
     #region public variables
 
@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour {
     private GameObject m_playerGameobject;
     private GameObject m_NearWeapon;
     private GameObject m_EquippedWeapon;
+    private GameObject m_SwingNode;
+    private WeaponScript m_EquippedWeaponScript;
     private float m_CurrentHealth;
     private bool m_InLightHazard = false;
     private bool m_InShadeHazard = false;
@@ -36,6 +38,7 @@ public class PlayerManager : MonoBehaviour {
     {
         m_playerGameobject = this.gameObject;
         m_CurrentHealth = m_HealthMax;
+        m_SwingNode = transform.FindChild("SwingNode").gameObject;
     }
 
     //-------------------------------------------------------------------------
@@ -142,8 +145,39 @@ public class PlayerManager : MonoBehaviour {
     //-------------------------------------------------------------------------
 
     public void UseWeapon()
+    {        
+        if (m_EquippedWeaponScript.e_WeaponType == WeaponScript.WeaponType.MELEE)
+        {
+            // Swing the weapon
+            m_EquippedWeapon.transform.parent = m_SwingNode.transform;
+            m_EquippedWeapon.transform.localPosition = m_EquippedWeaponScript.m_AnimationOffset;
+            foreach (AnimationState state in m_SwingNode.animation)
+            {
+                state.speed = m_EquippedWeaponScript.m_UsageSpeed;
+            }            
+            m_SwingNode.animation.Play();
+        }
+        else if (m_EquippedWeaponScript.e_WeaponType == WeaponScript.WeaponType.RANGED)
+        {
+            // Shoot a projectile
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void StartSwing()
+    {        
+        m_EquippedWeaponScript.e_PickupState = WeaponScript.PickupState.IN_USE;        
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void EndSwing()
     {
-        // Swing/Shoot weapon if one is currently held
+        m_EquippedWeapon.transform.parent = transform;
+        m_EquippedWeapon.transform.localRotation = Quaternion.Euler(m_EquippedWeaponScript.m_BaseRotation);
+        m_EquippedWeapon.transform.localPosition = m_EquippedWeaponScript.m_PlacementOffset;
+        m_EquippedWeaponScript.e_PickupState = WeaponScript.PickupState.PICKED_UP;
     }
 
     //-------------------------------------------------------------------------
@@ -152,7 +186,7 @@ public class PlayerManager : MonoBehaviour {
     {
         if (m_IsNearWeapon)
         {
-            if (m_EquippedWeapon)
+            if (m_EquippedWeapon && m_EquippedWeaponScript.e_PickupState != WeaponScript.PickupState.IN_USE)
             {
                 DequipWeapon(m_EquippedWeapon);
             }
@@ -161,7 +195,7 @@ public class PlayerManager : MonoBehaviour {
         }
         else
         {
-            if (m_EquippedWeapon)
+            if (m_EquippedWeapon && m_EquippedWeaponScript.e_PickupState != WeaponScript.PickupState.IN_USE)
             {
                 DequipWeapon(m_EquippedWeapon);
             }
@@ -234,7 +268,14 @@ public class PlayerManager : MonoBehaviour {
     private void EquipWeapon(GameObject weapon)
     {
         m_EquippedWeapon = weapon;
-        m_EquippedWeapon.transform.parent = this.gameObject.transform;
+        m_EquippedWeaponScript = m_EquippedWeapon.GetComponent<WeaponScript>();
+
+        // Place the weapon in the correct place        
+        m_EquippedWeapon.transform.parent = transform;
+        m_EquippedWeapon.transform.localRotation = Quaternion.Euler(m_EquippedWeaponScript.m_BaseRotation);
+        m_EquippedWeapon.transform.localPosition = m_EquippedWeaponScript.m_PlacementOffset;
+        m_EquippedWeaponScript.e_PickupState = WeaponScript.PickupState.PICKED_UP;
+
         m_EquippedWeapon.rigidbody.isKinematic = true;
 
         // Same exit condition for exit weapon trigger
@@ -247,7 +288,9 @@ public class PlayerManager : MonoBehaviour {
     private void DequipWeapon(GameObject weapon)
     {
         m_EquippedWeapon.rigidbody.isKinematic = false;
-        m_EquippedWeapon.transform.parent = this.gameObject.transform;
+        m_EquippedWeaponScript.e_PickupState = WeaponScript.PickupState.ON_GROUND;
+        m_EquippedWeaponScript = null;
+        m_EquippedWeapon.transform.parent = null;
         m_EquippedWeapon = null;
     }
 

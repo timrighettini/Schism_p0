@@ -52,6 +52,7 @@
      <Compile Include="Assets\_Scripts\EnemySpawner.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\PlayerManager.cs" />
+     <Compile Include="Assets\_Scripts\SwingNodeScript.cs" />
      <Compile Include="Assets\_Scripts\WeaponScript.cs" />
      <None Include="Assets\Standard Assets\Glass Refraction (Pro Only)\Sources\Shaders\Glass-Stained-BumpDistort.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
