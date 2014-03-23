@@ -138,7 +138,12 @@ public class PlayerManager : MonoBehaviour {
     #region public methods
 
     public void Move(float dx, float dy)
-    {        
+    {
+        if (dx == 0 && dy == 0)
+        {
+            return;
+        }
+        
         m_playerGameobject.transform.position += new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
         if (dy > 0)
         {

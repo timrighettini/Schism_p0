@@ -18,7 +18,7 @@ public class WeaponScript : MonoBehaviour
     public PickupState e_PickupState = PickupState.ON_GROUND;    
 
     public float m_Damage;
-    public float m_UsageSpeed;    
+    public float m_UsageSpeed;
     
     #endregion
 
