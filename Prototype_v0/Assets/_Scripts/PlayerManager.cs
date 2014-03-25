@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour {
     private GameObject m_NearWeapon;
     private GameObject m_EquippedWeapon;
     private GameObject m_SwingNode;
+    private ParticleSystem m_Particles;
     private WeaponScript m_EquippedWeaponScript;
     private float m_CurrentHealth;
     private bool m_InLightHazard = false;
@@ -39,6 +40,7 @@ public class PlayerManager : MonoBehaviour {
         m_playerGameobject = this.gameObject;
         m_CurrentHealth = m_HealthMax;
         m_SwingNode = transform.FindChild("SwingNode").gameObject;
+        m_Particles = transform.GetComponentInChildren<ParticleSystem>();
     }
 
     //-------------------------------------------------------------------------
@@ -51,6 +53,12 @@ public class PlayerManager : MonoBehaviour {
             {
                 m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
 
+                m_Particles.startColor = Color.red;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
+
                 if (m_CurrentHealth < 0)
                 {
                     m_CurrentHealth = 0;
@@ -60,6 +68,12 @@ public class PlayerManager : MonoBehaviour {
             {
                 m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
 
+                m_Particles.startColor = Color.red;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
+
                 if (m_CurrentHealth < 0)
                 {
                     m_CurrentHealth = 0;
@@ -68,6 +82,12 @@ public class PlayerManager : MonoBehaviour {
             else
             {
                 m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
+
+                m_Particles.startColor = Color.green;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
 
                 if (m_CurrentHealth > m_HealthMax)
                 {
@@ -81,6 +101,12 @@ public class PlayerManager : MonoBehaviour {
             {
                 m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
 
+                m_Particles.startColor = Color.red;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
+
                 if (m_CurrentHealth < 0)
                 {
                     m_CurrentHealth = 0;
@@ -89,6 +115,12 @@ public class PlayerManager : MonoBehaviour {
             else if (e_PlayerType == playerType.TWILIGHT)
             {
                 m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
+
+                m_Particles.startColor = Color.red;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
 
                 if (m_CurrentHealth < 0)
                 {
@@ -99,11 +131,24 @@ public class PlayerManager : MonoBehaviour {
             {
                 m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
 
+                m_Particles.startColor = Color.green;
+                if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
+                }
+
                 if (m_CurrentHealth > m_HealthMax)
                 {
                     m_CurrentHealth = m_HealthMax;
                 }
             }
+        }
+        else
+        {
+            if (m_Particles.isPlaying)
+            {
+                m_Particles.Play();
+            };
         }
     }
 
@@ -260,6 +305,7 @@ public class PlayerManager : MonoBehaviour {
     public void SetInShadeHazard(bool val)
     {
         m_InShadeHazard = val;
+
     }
 
     //-------------------------------------------------------------------------
@@ -267,6 +313,7 @@ public class PlayerManager : MonoBehaviour {
     public void SetInLightHazard(bool val)
     {
         m_InLightHazard = val;
+
     }
 
     //-------------------------------------------------------------------------
