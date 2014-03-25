@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour {
     private GameObject m_NearWeapon;
     private GameObject m_EquippedWeapon;
     private GameObject m_SwingNode;
+    private GameObject m_CurrentSwitch;
     private ParticleSystem m_Particles;
     private WeaponScript m_EquippedWeaponScript;
     private float m_CurrentHealth;
@@ -160,7 +161,11 @@ public class PlayerManager : MonoBehaviour {
         {
             m_IsNearWeapon = true;
             m_NearWeapon = other.gameObject;
-        }        
+        }  
+        else if (other.CompareTag("Switch"))
+        {
+            m_CurrentSwitch = other.gameObject;
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -171,6 +176,10 @@ public class PlayerManager : MonoBehaviour {
         {
             m_IsNearWeapon = false;
             m_NearWeapon = null;
+        }
+        else if (other.CompareTag("Switch"))
+        {
+            m_CurrentSwitch = null;
         }
     }
 
@@ -354,6 +363,16 @@ public class PlayerManager : MonoBehaviour {
         if (m_CurrentHealth > m_HealthMax)
         {
             m_CurrentHealth = m_HealthMax;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void Activate()
+    {
+        if (m_CurrentSwitch)
+        {
+            m_CurrentSwitch.GetComponent<SwitchScript>().FlipSwitch();
         }
     }
 

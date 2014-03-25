@@ -9,6 +9,8 @@ public class SwingNodeScript : MonoBehaviour {
 	void Start () {
         player = transform.parent.gameObject.GetComponent<PlayerManager>();
 	}
+
+    //-------------------------------------------------------------------------
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,8 +22,12 @@ public class SwingNodeScript : MonoBehaviour {
         player.StartSwing();
     }
 
+    //-------------------------------------------------------------------------
+
     void EndSwingAnimation()
     {
         player.EndSwing();        
     }
+
+    //-------------------------------------------------------------------------
 }

@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour {
     {
         m_SpawnerPosition = this.transform.position;
         m_StartTime = 0;
-        m_ActualSpawnTime = m_SpawnPeriod + Random.RandomRange(-m_SpawnPeriodJitter, m_SpawnPeriodJitter);
+        m_ActualSpawnTime = m_SpawnPeriod + Random.Range(-m_SpawnPeriodJitter, m_SpawnPeriodJitter);
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour {
         if (m_StartTime > m_ActualSpawnTime)
         {
             SpawnEnemy();
-            m_ActualSpawnTime = m_SpawnPeriod + Random.RandomRange(-m_SpawnPeriodJitter, m_SpawnPeriodJitter);
+            m_ActualSpawnTime = m_SpawnPeriod + Random.Range(-m_SpawnPeriodJitter, m_SpawnPeriodJitter);
             m_StartTime = 0;
         }
         else

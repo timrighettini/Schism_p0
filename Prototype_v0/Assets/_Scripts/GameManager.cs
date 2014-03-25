@@ -71,6 +71,17 @@ public class GameManager : MonoBehaviour
                 m_ShadowPlayer.PickUpWeapon();
             }
 
+            // Activation of Objects
+            if (Input.GetButtonDown("P1_Activate"))
+            {
+                m_LightPlayer.Activate();
+            }
+
+            if (Input.GetButtonDown("P2_Activate"))
+            {
+                m_ShadowPlayer.Activate();
+            }
+
             // Weapon Usage
             if (Input.GetButtonDown("P1_UseWeapon"))
             {
@@ -92,6 +103,12 @@ public class GameManager : MonoBehaviour
             if (Input.GetButtonDown("P1_Pickup"))
             {
                 m_TwilightPlayer.PickUpWeapon();
+            }
+
+            // Activation of Objects
+            if (Input.GetButtonDown("P1_Activate"))
+            {
+                m_LightPlayer.UseWeapon();
             }
 
             // Weapon Usage
