@@ -85,18 +85,18 @@ public class PlayerManager : MonoBehaviour {
                 m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
 
                 m_Particles.startColor = Color.green;
-                if (m_Particles.isStopped)
-                {
-                    m_Particles.Play();
-                }
 
                 if (m_CurrentHealth > m_HealthMax)
                 {
                     m_CurrentHealth = m_HealthMax;
                     if (m_Particles.isPlaying)
                     {
-                        m_Particles.Play();
+                        m_Particles.Stop();
                     }
+                }
+                else if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
                 }
             }
         }
@@ -137,19 +137,18 @@ public class PlayerManager : MonoBehaviour {
                 m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
 
                 m_Particles.startColor = Color.green;
-                if (m_Particles.isStopped)
-                {
-                    m_Particles.Play();
-                }
 
                 if (m_CurrentHealth > m_HealthMax)
                 {
                     m_CurrentHealth = m_HealthMax;
                     if (m_Particles.isPlaying)
                     {
-                        m_Particles.Play();
+                        m_Particles.Stop();
                     }
-
+                }
+                else if (m_Particles.isStopped)
+                {
+                    m_Particles.Play();
                 }
             }
         }

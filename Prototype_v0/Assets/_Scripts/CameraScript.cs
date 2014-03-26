@@ -43,7 +43,7 @@ public class CameraScript : MonoBehaviour
 
 
 
-    #region public methods
+    #region public methods    
 
     #endregion
 

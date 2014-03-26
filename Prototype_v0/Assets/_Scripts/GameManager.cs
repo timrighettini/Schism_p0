@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     public Texture Health_Shadow_FG_Texture;
     public Texture Health_Twilight_FG_Texture;
 
+    public GUIText m_YouWin;
+    public GUIText m_YouWin_2;
+    public CameraScript m_Camera;
+
     #endregion
 
 
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
     Vector2 Health_WidthHeight = new Vector2(200, 30);
     Vector2 Health_TopLeftOrigin = new Vector2(0, 0);
     const float ySkew = 40; // For Shadow Health Bar
+    private bool m_IsGameOver = false;
 
     #endregion
 
@@ -51,6 +56,15 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        if (m_IsGameOver)
+        {
+            // Display You Win Message            
+            m_YouWin.gameObject.SetActive(true);
+            m_YouWin_2.gameObject.SetActive(true);  
+            m_Camera.transform.GetChild(0).gameObject.SetActive(true);
+            return;
+        }
+        
         // TODO: Add abilities usage
 
 	    // Do Input Polling
@@ -123,7 +137,10 @@ public class GameManager : MonoBehaviour
 
     void OnGUI()
     {
-        DrawHealthBoxes();
+        if (!m_IsGameOver)
+        {
+            DrawHealthBoxes();
+        }
     }
 
     #endregion 
@@ -131,6 +148,11 @@ public class GameManager : MonoBehaviour
 
 
     #region public methods
+
+    public void SetGameOver()
+    {
+        m_IsGameOver = true;
+    }
 
     #endregion
 
