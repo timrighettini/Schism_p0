@@ -95,6 +95,56 @@ public class ElementDetectionScript : MonoBehaviour {
 
     //-------------------------------------------------------------------------
 
+    void OnTriggerStay(Collider other)
+    {
+        GameObject player = other.gameObject;
+        PlayerManager playerManager = player.GetComponent<PlayerManager>();
+
+        if (player.CompareTag("LightPlayer"))
+        {
+            if (e_ElementState == elementState.SHADOW)
+            {                
+                playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
+            }
+            else
+            {                
+                playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
+            }
+        }
+
+        else if (player.CompareTag("ShadowPlayer"))
+        {
+            if (e_ElementState == elementState.SHADOW)
+            {                
+                playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
+            }
+            else
+            {                
+                playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
+            }
+        }
+
+        else if (player.CompareTag("TwilightPlayer"))
+        {
+            if (e_ElementState == elementState.SHADOW)
+            {                
+                playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
+            }
+            else
+            {
+                playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
     void OnTriggerExit(Collider other)
     {
         GameObject player = other.gameObject;

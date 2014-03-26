@@ -5,7 +5,8 @@ public class CameraScript : MonoBehaviour
 {
     #region public variables
 
-    public GameObject FollowObject;
+    public GameObject m_FollowObject;
+    public float m_FollowDistance;
 
     #endregion
 
@@ -31,9 +32,9 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (FollowObject)
+        if (m_FollowObject)
         {
-            camera.transform.position = new Vector3(FollowObject.transform.position.x, camera.transform.position.y, camera.transform.position.z);
+            camera.transform.position = new Vector3(m_FollowObject.transform.position.x, camera.transform.position.y, m_FollowObject.transform.position.z + m_FollowDistance);
         }
     }
 

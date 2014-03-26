@@ -93,6 +93,10 @@ public class PlayerManager : MonoBehaviour {
                 if (m_CurrentHealth > m_HealthMax)
                 {
                     m_CurrentHealth = m_HealthMax;
+                    if (m_Particles.isPlaying)
+                    {
+                        m_Particles.Play();
+                    }
                 }
             }
         }
@@ -141,6 +145,11 @@ public class PlayerManager : MonoBehaviour {
                 if (m_CurrentHealth > m_HealthMax)
                 {
                     m_CurrentHealth = m_HealthMax;
+                    if (m_Particles.isPlaying)
+                    {
+                        m_Particles.Play();
+                    }
+
                 }
             }
         }
@@ -149,7 +158,7 @@ public class PlayerManager : MonoBehaviour {
             if (m_Particles.isPlaying)
             {
                 m_Particles.Play();
-            };
+            }
         }
     }
 

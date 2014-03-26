@@ -12,6 +12,8 @@ public class SwitchScript : MonoBehaviour
     public enum SWITCH_POSITION { UP, DOWN };
     public SWITCH_POSITION e_Switch_Position = SWITCH_POSITION.DOWN;
 
+    public SwitchScript[] m_AttachedSwitches;
+
     #endregion
 
 
@@ -62,6 +64,25 @@ public class SwitchScript : MonoBehaviour
     #region public methods
 
     public void FlipSwitch()
+    {
+        if (e_Switch_Position == SWITCH_POSITION.DOWN)
+        {
+            e_Switch_Position = SWITCH_POSITION.UP;
+        }
+        else
+        {
+            e_Switch_Position = SWITCH_POSITION.DOWN;
+        }
+        foreach (SwitchScript s in m_AttachedSwitches)
+        {           
+            s.FlipSwitchNonRecursive();            
+        }
+        SetActiveObjects();
+    }
+
+    //-------------------------------------------------------------------------
+
+    public void FlipSwitchNonRecursive()
     {
         if (e_Switch_Position == SWITCH_POSITION.DOWN)
         {
