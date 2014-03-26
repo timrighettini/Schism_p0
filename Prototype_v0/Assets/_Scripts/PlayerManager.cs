@@ -275,6 +275,11 @@ public class PlayerManager : MonoBehaviour {
         {
             return;
         }
+
+        if (m_EquippedWeaponScript.e_PickupState == WeaponScript.PickupState.IN_USE)
+        {
+            return;
+        }
         
         if (m_EquippedWeaponScript.e_WeaponType == WeaponScript.WeaponType.MELEE)
         {
