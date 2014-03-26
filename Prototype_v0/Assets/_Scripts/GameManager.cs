@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (m_LightManager.GetCurrentHealth() <= 0 || m_LightManager.GetCurrentHealth() <= 0 || m_LightManager.GetCurrentHealth() <= 0 || Input.GetKeyDown(KeyCode.Escape))
+        if (m_LightManager.GetCurrentHealth() <= 0 || m_ShadeManager.GetCurrentHealth() <= 0 || m_TwiliManager.GetCurrentHealth() <= 0 || Input.GetKeyDown(KeyCode.Escape))
         {
             Application.LoadLevel("puzzleRoom");
         }
