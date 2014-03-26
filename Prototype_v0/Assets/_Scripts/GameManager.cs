@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
     const float ySkew = 40; // For Shadow Health Bar
     private bool m_IsGameOver = false;
 
+    private PlayerManager m_LightManager;
+    private PlayerManager m_ShadeManager;
+    private PlayerManager m_TwiliManager;
+
     #endregion
 
 
@@ -50,12 +54,21 @@ public class GameManager : MonoBehaviour
         m_LightPlayer = GameObject.FindGameObjectWithTag("LightPlayer").GetComponent<PlayerManager>();
         m_ShadowPlayer = GameObject.FindGameObjectWithTag("ShadowPlayer").GetComponent<PlayerManager>();
         m_TwilightPlayer = GameObject.FindGameObjectWithTag("TwilightPlayer").GetComponent<PlayerManager>();
+
+        m_LightManager = m_LightPlayer.GetComponent<PlayerManager>();
+        m_ShadeManager = m_ShadowPlayer.GetComponent<PlayerManager>();
+        m_TwiliManager = m_TwilightPlayer.GetComponent<PlayerManager>();
 	}
 
     //-------------------------------------------------------------------------
 	
 	// Update is called once per frame
 	void Update () {
+        if (m_LightManager.GetCurrentHealth() <= 0 || m_LightManager.GetCurrentHealth() <= 0 || m_LightManager.GetCurrentHealth() <= 0 || Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.LoadLevel("puzzleRoom");
+        }
+        
         if (m_IsGameOver)
         {
             // Display You Win Message            
