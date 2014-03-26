@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour {
     public float m_OppositeElementModifier;
     public enum playerType { LIGHT, SHADOW, TWILIGHT };
     public playerType e_PlayerType;
+    public float m_StunTime = 0.5f;
 
     #endregion
 
@@ -29,6 +30,7 @@ public class PlayerManager : MonoBehaviour {
     private bool m_InLightHazard = false;
     private bool m_InShadeHazard = false;
     private bool m_IsNearWeapon = false;
+    private bool m_IsStunned = false;
                    
     #endregion
 
@@ -205,8 +207,23 @@ public class PlayerManager : MonoBehaviour {
         {
             return;
         }
+
+        if (m_IsStunned)
+        {
+            return;
+        }
+
+        rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
         
         m_playerGameobject.transform.position += new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        if (!GeometryUtility.TestPlanesAABB(planes, GameObject.FindGameObjectWithTag("ShadowPlayer").collider.bounds))
+        {
+            m_playerGameobject.transform.position -= new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
+            return;
+        }
+
         if (dy > 0)
         {
             if (dx > 0)
@@ -384,6 +401,12 @@ public class PlayerManager : MonoBehaviour {
 
     //-------------------------------------------------------------------------
 
+    public void StunOnCollision()
+    {
+        m_IsStunned = true;
+        StartCoroutine("UnStun");
+    }
+
     #endregion
 
 
@@ -420,6 +443,12 @@ public class PlayerManager : MonoBehaviour {
     }
 
     //-------------------------------------------------------------------------
+
+    IEnumerator UnStun()
+    {
+        yield return new WaitForSeconds(m_StunTime);
+        m_IsStunned = false;
+    }
 
     #endregion
 }

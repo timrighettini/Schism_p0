@@ -95,6 +95,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
         {
             PlayerManager player = other.gameObject.GetComponent<PlayerManager>();
             player.MinusCurrentHealth(m_DamageToTake);
+            player.StunOnCollision();
             other.gameObject.rigidbody.AddForce(Vector3.up * m_PlayerPushBackMagnitude);
             other.gameObject.rigidbody.AddForce(transform.forward * m_PlayerPushBackMagnitude);
         }

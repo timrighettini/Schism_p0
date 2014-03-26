@@ -6,7 +6,11 @@ public class CameraScript : MonoBehaviour
     #region public variables
 
     public GameObject m_FollowObject;
+    public GameObject m_ZoomObject;
     public float m_FollowDistance;
+    public float m_ZoomDistance;
+    public float m_ZoomTopOff;
+    public float m_MaxZoom;
 
     #endregion
 
@@ -36,6 +40,28 @@ public class CameraScript : MonoBehaviour
         {
             camera.transform.position = new Vector3(m_FollowObject.transform.position.x, camera.transform.position.y, m_FollowObject.transform.position.z + m_FollowDistance);
         }
+        while (true)
+        {
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            if (!GeometryUtility.TestPlanesAABB(planes, m_ZoomObject.collider.bounds))
+            {
+                camera.transform.Translate(0, 0, m_ZoomDistance);
+            }
+            else
+            {
+                camera.transform.Translate(0, 0, m_ZoomDistance * m_ZoomTopOff);
+                if (camera.transform.position.z <= m_MaxZoom)
+                {
+                    camera.transform.position = new Vector3(
+                        camera.transform.position.x,
+                        camera.transform.position.y,
+                        m_MaxZoom
+                    );
+
+                }
+                break;
+            }
+        }        
     }
 
 
