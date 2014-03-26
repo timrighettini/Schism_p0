@@ -50,11 +50,13 @@ public class ElementDetectionScript : MonoBehaviour {
             {
                 Debug.Log("Light in Shadow");
                 playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
             }
             else
             {
                 Debug.Log("Light in Light");
                 playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
             }
         }
 
@@ -64,11 +66,13 @@ public class ElementDetectionScript : MonoBehaviour {
             {
                 Debug.Log("Shadow in Shadow");
                 playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
             }
             else
             {
                 Debug.Log("Shadow in Light");
                 playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
             }
         }
 
@@ -78,11 +82,13 @@ public class ElementDetectionScript : MonoBehaviour {
             {
                 Debug.Log("Twilight in Shadow");
                 playerManager.SetInShadeHazard(true);
+                playerManager.SetInLightHazard(false);
             }
             else
             {
                 Debug.Log("Twilight in Light");
                 playerManager.SetInLightHazard(true);
+                playerManager.SetInShadeHazard(false);
             }
         }
     }

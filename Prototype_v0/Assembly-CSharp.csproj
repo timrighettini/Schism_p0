@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\_Scripts\BasicEnemyBehavior.cs" />
+     <Compile Include="Assets\_Scripts\CameraScript.cs" />
      <Compile Include="Assets\_Scripts\ConventionTamplate.cs" />
      <Compile Include="Assets\_Scripts\ElementDetectionScript.cs" />
      <Compile Include="Assets\_Scripts\EnemySpawner.cs" />

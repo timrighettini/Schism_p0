@@ -314,7 +314,6 @@ public class PlayerManager : MonoBehaviour {
     public void SetInShadeHazard(bool val)
     {
         m_InShadeHazard = val;
-
     }
 
     //-------------------------------------------------------------------------
@@ -322,7 +321,6 @@ public class PlayerManager : MonoBehaviour {
     public void SetInLightHazard(bool val)
     {
         m_InLightHazard = val;
-
     }
 
     //-------------------------------------------------------------------------
