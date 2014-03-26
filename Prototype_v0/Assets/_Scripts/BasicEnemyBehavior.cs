@@ -12,6 +12,9 @@ public class BasicEnemyBehavior : MonoBehaviour {
     public float m_PlayerPushBackMagnitude;
     public float m_DeathForce;
 
+    public Vector3 m_StartingMovement = Vector3.zero;
+    public float m_DelayForStartingMovement = 0.0f;
+
     #endregion
 
 
@@ -33,15 +36,22 @@ public class BasicEnemyBehavior : MonoBehaviour {
         m_ThisTransform = this.transform;
 
         m_Target = GameObject.FindGameObjectWithTag(m_TagOfTarget);
-        
-        if (m_Target)
+
+        if (m_DelayForStartingMovement <= 0.0f)
         {
-            m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;
+            if (m_Target)
+            {
+                m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;
+            }
+            else
+            {
+                m_VectorToTarget = Vector3.left;
+            }
         }
         else
         {
-            m_VectorToTarget = Vector3.zero;
-        }        
+            m_VectorToTarget = m_StartingMovement;
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -49,15 +59,23 @@ public class BasicEnemyBehavior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Move in the direction towards the target, then update that direction
-        if (m_Target)
+        m_DelayForStartingMovement -= Time.deltaTime;
+
+        if (m_DelayForStartingMovement <= 0.0f)
         {
-            m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;            
+            if (m_Target)
+            {
+                m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;
+            }
+            else
+            {
+                m_VectorToTarget = Vector3.left;
+            }
         }
         else
         {
-            m_VectorToTarget = Vector3.left;            
-        }        
+            m_VectorToTarget = m_StartingMovement;
+        }      
 
         // For basic enemy, we will only follow on the ground, so let's
         // get rid of any y-movement

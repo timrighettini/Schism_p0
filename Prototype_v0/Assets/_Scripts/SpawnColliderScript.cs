@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GoalScript : MonoBehaviour
+public class SpawnColliderScript : MonoBehaviour
 {
+
 
     #region public variables
 
-    public byte m_TotalPlayerNumber = 2;
-    public GameManager m_Manager;
+    public GameObject[] m_SpawnManagers;
 
     #endregion
 
@@ -15,7 +15,7 @@ public class GoalScript : MonoBehaviour
 
     #region private variables
 
-    private byte m_NumberOfHitsByPlayers = 0;
+
 
     #endregion
 
@@ -23,10 +23,15 @@ public class GoalScript : MonoBehaviour
 
     #region unity overrides
 
+
     // Use this for initialization
     void Start()
     {
-
+        foreach (GameObject g in m_SpawnManagers)
+        {
+            g.SetActive(false);
+        }
+        this.renderer.enabled = false;
     }
 
     // Update is called once per frame
@@ -39,26 +44,31 @@ public class GoalScript : MonoBehaviour
     {
         if (other.tag.Contains("Player"))
         {
-            m_NumberOfHitsByPlayers++;
-            if (m_NumberOfHitsByPlayers == m_TotalPlayerNumber)
+            foreach (GameObject g in m_SpawnManagers)
             {
-                Debug.Log("You Win");
-                m_Manager.SetGameOver();
+                if (!g.activeSelf)
+                {
+                    g.SetActive(true);
+                }
             }
         }
     }
-
-    //-------------------------------------------------------------------------
 
     void OnTriggerExit(Collider other)
     {
         if (other.tag.Contains("Player"))
         {
-            m_NumberOfHitsByPlayers--;
+            foreach (GameObject g in m_SpawnManagers)
+            {
+                if (g.activeSelf)
+                {
+                    g.GetComponent<SpawnControllerScript>().TurnOffSpawners();
+                    g.SetActive(false);
+                }
+            }
         }
     }
 
-    //-------------------------------------------------------------------------
 
     #endregion
 

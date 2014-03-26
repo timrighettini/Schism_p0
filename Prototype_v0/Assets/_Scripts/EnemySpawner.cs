@@ -9,6 +9,10 @@ public class EnemySpawner : MonoBehaviour {
     public float m_SpawnPeriodJitter;
     public GameObject m_EnemyType; // THIS MUST BE A PREFAB!
 
+    public Vector3 m_EnemyStartingDirection = new Vector3(0,0,-1);
+    public float m_StartingMovementTime = 0.0f;
+    public Vector3 m_StartingDirectionJitter = Vector3.zero;
+
     #endregion
 
 
@@ -66,6 +70,12 @@ public class EnemySpawner : MonoBehaviour {
     {
         GameObject enemy = (GameObject)Instantiate(m_EnemyType);
         enemy.transform.position = m_SpawnerPosition;
+        enemy.GetComponent<BasicEnemyBehavior>().m_DelayForStartingMovement = m_StartingMovementTime;
+        enemy.GetComponent<BasicEnemyBehavior>().m_StartingMovement = new Vector3(
+            m_EnemyStartingDirection.x + Random.Range(-m_StartingDirectionJitter.x, m_StartingDirectionJitter.x),
+            m_EnemyStartingDirection.y + Random.Range(-m_StartingDirectionJitter.y, m_StartingDirectionJitter.y),
+            m_EnemyStartingDirection.z + Random.Range(-m_StartingDirectionJitter.z, m_StartingDirectionJitter.z)
+            );
     }
 
     #endregion

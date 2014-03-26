@@ -154,6 +154,8 @@ public class GameManager : MonoBehaviour
         m_IsGameOver = true;
     }
 
+    //-------------------------------------------------------------------------
+
     #endregion
 
 

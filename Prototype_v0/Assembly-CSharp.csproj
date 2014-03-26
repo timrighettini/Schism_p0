@@ -54,6 +54,8 @@
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\GoalScript.cs" />
      <Compile Include="Assets\_Scripts\PlayerManager.cs" />
+     <Compile Include="Assets\_Scripts\SpawnColliderScript.cs" />
+     <Compile Include="Assets\_Scripts\SpawnControllerScript.cs" />
      <Compile Include="Assets\_Scripts\SwingNodeScript.cs" />
      <Compile Include="Assets\_Scripts\SwitchScript.cs" />
      <Compile Include="Assets\_Scripts\WeaponScript.cs" />
