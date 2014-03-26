@@ -218,11 +218,11 @@ public class PlayerManager : MonoBehaviour {
         m_playerGameobject.transform.position += new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-        if (!GeometryUtility.TestPlanesAABB(planes, GameObject.FindGameObjectWithTag("ShadowPlayer").collider.bounds))
-        {
-            m_playerGameobject.transform.position -= new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
-            return;
-        }
+        //if (!GeometryUtility.TestPlanesAABB(planes, GameObject.FindGameObjectWithTag("ShadowPlayer").collider.bounds) && e_PlayerType == playerType.LIGHT)
+        //{
+        //    m_playerGameobject.transform.position -= new Vector3(dx * m_movementSpeed * Time.deltaTime, 0, dy * m_movementSpeed * Time.deltaTime);
+        //    return;
+        //}
 
         if (dy > 0)
         {
@@ -279,6 +279,7 @@ public class PlayerManager : MonoBehaviour {
         if (m_EquippedWeaponScript.e_WeaponType == WeaponScript.WeaponType.MELEE)
         {
             // Swing the weapon
+            m_EquippedWeapon.audio.Play();
             m_EquippedWeapon.transform.parent = m_SwingNode.transform;
             m_EquippedWeapon.transform.localPosition = m_EquippedWeaponScript.m_AnimationOffset;
             foreach (AnimationState state in m_SwingNode.animation)
@@ -415,6 +416,7 @@ public class PlayerManager : MonoBehaviour {
 
     private void EquipWeapon(GameObject weapon)
     {
+        audio.Play();
         m_EquippedWeapon = weapon;
         m_EquippedWeaponScript = m_EquippedWeapon.GetComponent<WeaponScript>();
 

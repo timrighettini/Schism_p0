@@ -65,6 +65,7 @@ public class SwitchScript : MonoBehaviour
 
     public void FlipSwitch()
     {
+        audio.Play();
         if (e_Switch_Position == SWITCH_POSITION.DOWN)
         {
             e_Switch_Position = SWITCH_POSITION.UP;
