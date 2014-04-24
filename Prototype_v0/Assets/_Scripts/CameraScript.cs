@@ -7,6 +7,8 @@ public class CameraScript : MonoBehaviour
 
     public GameObject m_FollowObject;
     public GameObject m_ZoomObject;
+	public GameObject tp;
+
     public float m_FollowDistance;
     public float m_ZoomDistance;
     public float m_ZoomTopOff;

@@ -5,9 +5,11 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     #region public variables
 
-    public GameObject m_Target;    
+	public GameObject m_Targetshadow,m_Targetlight;    
     public float m_SpeedPerSecond;
     public string m_TagOfTarget;
+	public string m_shadow;
+	public string m_light;
     public float m_DamageToTake;
     public float m_PlayerPushBackMagnitude;
     public float m_DeathForce;
@@ -35,21 +37,31 @@ public class BasicEnemyBehavior : MonoBehaviour {
     {
         m_ThisTransform = this.transform;
 
-        m_Target = GameObject.FindGameObjectWithTag(m_TagOfTarget);
-
-        if (m_DelayForStartingMovement <= 0.0f)
+        m_Targetshadow = GameObject.FindGameObjectWithTag(m_shadow);
+		m_Targetlight = GameObject.FindGameObjectWithTag(m_light);
+		float distlight = (m_Targetlight.transform.position - this.transform.position).magnitude;
+		float distshadow = (m_Targetshadow.transform.position - this.transform.position).magnitude;
+		if (m_DelayForStartingMovement <= 0.0f)
         {
-            if (m_Target)
+            if (m_Targetshadow.GetComponent<PlayerManager>().m_InLightHazard)
             {
-                m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;
+				m_VectorToTarget = m_Targetshadow.transform.position - m_ThisTransform.position;
             }
-            else
+			else if (m_Targetlight.GetComponent<PlayerManager>().m_InShadeHazard)
             {
-                m_VectorToTarget = Vector3.left;
+				m_VectorToTarget = m_Targetlight.transform.position - m_ThisTransform.position;
             }
+			else
+			{
+				if(distlight<distshadow)
+					m_VectorToTarget = m_Targetlight.transform.position - m_ThisTransform.position;
+				else
+					m_VectorToTarget = m_Targetshadow.transform.position - m_ThisTransform.position;
+			}
         }
         else
         {
+
             m_VectorToTarget = m_StartingMovement;
         }
     }
@@ -60,17 +72,28 @@ public class BasicEnemyBehavior : MonoBehaviour {
     void Update()
     {
         m_DelayForStartingMovement -= Time.deltaTime;
+		m_Targetshadow = GameObject.FindGameObjectWithTag(m_shadow);
+		m_Targetlight = GameObject.FindGameObjectWithTag(m_light);
+		float distlight = (m_Targetlight.transform.position - this.transform.position).magnitude;
+		float distshadow = (m_Targetshadow.transform.position - this.transform.position).magnitude;
 
         if (m_DelayForStartingMovement <= 0.0f)
         {
-            if (m_Target)
-            {
-                m_VectorToTarget = m_Target.transform.position - m_ThisTransform.position;
-            }
-            else
-            {
-                m_VectorToTarget = Vector3.left;
-            }
+			if (m_Targetshadow.GetComponent<PlayerManager>().m_InLightHazard)
+			{
+				m_VectorToTarget = m_Targetshadow.transform.position - m_ThisTransform.position;
+			}
+			else if (m_Targetlight.GetComponent<PlayerManager>().m_InShadeHazard)
+			{
+				m_VectorToTarget = m_Targetlight.transform.position - m_ThisTransform.position;
+			}
+			else
+			{
+				if(distlight<distshadow)
+					m_VectorToTarget = m_Targetlight.transform.position - m_ThisTransform.position;
+				else
+					m_VectorToTarget = m_Targetshadow.transform.position - m_ThisTransform.position;
+			}
         }
         else
         {

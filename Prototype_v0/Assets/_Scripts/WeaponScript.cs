@@ -20,6 +20,8 @@ public class WeaponScript : MonoBehaviour
     public float m_Damage;
     public float m_UsageSpeed;
     
+	public GameObject player;
+
     #endregion
 
 
@@ -53,7 +55,20 @@ public class WeaponScript : MonoBehaviour
         {
             BasicEnemyBehavior enemy = other.gameObject.GetComponent<BasicEnemyBehavior>();
             enemy.DestroyEnemy();
+			player.GetComponent<PlayerManager>().PlusCurrentHealth(5);
         }
+		if (other.gameObject.CompareTag("Rope"))
+		{
+			Debug.Log("rope");
+			Destroy(other.gameObject);
+			if(GameObject.FindGameObjectWithTag("Chandalier"))
+				if(!GameObject.FindGameObjectWithTag("Chandalier").GetComponent<Rigidbody>())
+				{
+					GameObject.FindGameObjectWithTag("Chandalier").AddComponent<Rigidbody>();
+
+
+				}
+		}
     }
 
 

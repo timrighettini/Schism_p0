@@ -5,7 +5,7 @@ public class ElementDetectionScript : MonoBehaviour {
 
 
     #region public variables
-
+	public int id;
     public enum elementState { LIGHT, SHADOW };
     public elementState e_ElementState;
 
@@ -46,54 +46,57 @@ public class ElementDetectionScript : MonoBehaviour {
 
         if (player.CompareTag("LightPlayer"))
         {
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {
-                Debug.Log("Light in Shadow");
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
-            }
-            else
-            {
-                Debug.Log("Light in Light");
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
-            }
-        }
-
-        else if (player.CompareTag("ShadowPlayer"))
+				Debug.Log("Light in Light");
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+			}
+			else
+			{
+				
+				Debug.Log("Light in Shadow");
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+			}
+		}
+		
+		else if (player.CompareTag("ShadowPlayer"))
         {
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {
-                Debug.Log("Shadow in Shadow");
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
+				Debug.Log("Shadow in Light");
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+
             }
             else
             {
-                Debug.Log("Shadow in Light");
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
-            }
-        }
-
-        else if (player.CompareTag("TwilightPlayer"))
+				Debug.Log("Shadow in Shadow");
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+			}
+		}
+		
+		else if (player.CompareTag("TwilightPlayer"))
         {            
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {
-                Debug.Log("Twilight in Shadow");
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
-            }
-            else
-            {
-                Debug.Log("Twilight in Light");
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
-            }
-        }
-    }
-
-    //-------------------------------------------------------------------------
+				Debug.Log("Twilight in Light");
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+			}
+			else
+			{
+				
+				Debug.Log("Twilight in Shadow");
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+			}
+		}
+	}
+	
+	//-------------------------------------------------------------------------
 
     void OnTriggerStay(Collider other)
     {
@@ -102,46 +105,49 @@ public class ElementDetectionScript : MonoBehaviour {
 
         if (player.CompareTag("LightPlayer"))
         {
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {                
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
-            }
-            else
-            {                
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
-            }
-        }
-
-        else if (player.CompareTag("ShadowPlayer"))
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+			}
+			else
+			{                
+               
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+			}
+		}
+		
+		else if (player.CompareTag("ShadowPlayer"))
         {
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {                
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
-            }
-            else
-            {                
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+			}
+			else
+			{       
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+
             }
         }
 
         else if (player.CompareTag("TwilightPlayer"))
         {
-            if (e_ElementState == elementState.SHADOW)
+            if (e_ElementState == elementState.LIGHT)
             {                
-                playerManager.SetInShadeHazard(true);
-                playerManager.SetInLightHazard(false);
-            }
-            else
-            {
-                playerManager.SetInLightHazard(true);
-                playerManager.SetInShadeHazard(false);
-            }
-        }
-    }
+				playerManager.SetInLightHazard(true);
+				playerManager.SetInShadeHazard(false);
+			}
+			else
+			{
+				
+				playerManager.SetInShadeHazard(true);
+				playerManager.SetInLightHazard(false);
+			}
+		}
+	}
 
     //-------------------------------------------------------------------------
 

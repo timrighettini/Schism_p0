@@ -6,8 +6,13 @@ public class PlayerManager : MonoBehaviour {
     #region public variables
 
     public float m_movementSpeed;
+	public float movespeedbackup;
     public float m_HealthMax;
     public float m_HealthToModifyPerSecond;
+
+	public float m_EnergyMax;
+	public float m_EnergyToModifyPerSecond;
+
     public float m_OppositeElementModifier;
     public enum playerType { LIGHT, SHADOW, TWILIGHT };
     public playerType e_PlayerType;
@@ -27,8 +32,9 @@ public class PlayerManager : MonoBehaviour {
     private ParticleSystem m_Particles;
     private WeaponScript m_EquippedWeaponScript;
     private float m_CurrentHealth;
-    private bool m_InLightHazard = false;
-    private bool m_InShadeHazard = false;
+	private float m_CurrentEnergy;
+    public bool m_InLightHazard = false;
+    public bool m_InShadeHazard = false;
     private bool m_IsNearWeapon = false;
     private bool m_IsStunned = false;
                    
@@ -42,6 +48,7 @@ public class PlayerManager : MonoBehaviour {
     {
         m_playerGameobject = this.gameObject;
         m_CurrentHealth = m_HealthMax;
+		m_CurrentEnergy = m_EnergyMax;
         m_SwingNode = transform.FindChild("SwingNode").gameObject;
         m_Particles = transform.GetComponentInChildren<ParticleSystem>();
     }
@@ -50,11 +57,48 @@ public class PlayerManager : MonoBehaviour {
     
     void FixedUpdate()
     {        
+		Collider[] enemiesinrange = Physics.OverlapSphere(this.transform.position,5.0f);
+		int enemycount=0;
+		for(int i=0;i<enemiesinrange.Length;i++)
+		{
+			if(enemiesinrange[i].gameObject.tag=="Enemy")
+			{
+				enemycount++;
+			}
+		}
+
+			if (e_PlayerType == playerType.SHADOW)
+			{
+				if(enemycount>=2)
+					m_CurrentEnergy -= m_EnergyToModifyPerSecond * Time.deltaTime;
+				else
+					m_CurrentEnergy += m_EnergyToModifyPerSecond * Time.deltaTime;
+			if(m_CurrentEnergy <0)
+				m_CurrentEnergy = 0;
+			if(m_CurrentEnergy > m_EnergyMax)
+				m_CurrentEnergy = m_EnergyMax;
+
+
+			}
+			if (e_PlayerType == playerType.LIGHT)
+			{
+				if(enemycount>=2)
+					m_CurrentEnergy += m_EnergyToModifyPerSecond * Time.deltaTime;
+			else
+				m_CurrentEnergy -= m_EnergyToModifyPerSecond * Time.deltaTime;
+			if(m_CurrentEnergy > m_EnergyMax)
+				m_CurrentEnergy = m_EnergyMax;
+			if(m_CurrentEnergy <0)
+				m_CurrentEnergy = 0;
+			}
+
         if (m_InLightHazard)
         {
             if (e_PlayerType == playerType.SHADOW)
             {
-                m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
+                //m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
+				//m_CurrentEnergy -= (m_EnergyToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
+				m_movementSpeed = 3.0f;
 
                 m_Particles.startColor = Color.red;
                 if (m_Particles.isStopped)
@@ -69,9 +113,11 @@ public class PlayerManager : MonoBehaviour {
             }
             else if (e_PlayerType == playerType.TWILIGHT)
             {
-                m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
+                //m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
+				//m_CurrentEnergy -= m_EnergyToModifyPerSecond * Time.deltaTime;
+				m_movementSpeed = 3.0f;
 
-                m_Particles.startColor = Color.red;
+				m_Particles.startColor = Color.red;
                 if (m_Particles.isStopped)
                 {
                     m_Particles.Play();
@@ -84,9 +130,12 @@ public class PlayerManager : MonoBehaviour {
             }
             else
             {
-                m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
+                //m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
+				//m_CurrentEnergy += m_EnergyToModifyPerSecond * Time.deltaTime;
+				m_movementSpeed = 7.0f;
 
                 m_Particles.startColor = Color.green;
+
 
                 if (m_CurrentHealth > m_HealthMax)
                 {
@@ -106,8 +155,10 @@ public class PlayerManager : MonoBehaviour {
         {
             if (e_PlayerType == playerType.LIGHT)
             {
-                m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
+                //m_CurrentHealth -= (m_HealthToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
+				//m_CurrentEnergy -= (m_EnergyToModifyPerSecond * m_OppositeElementModifier) * Time.deltaTime;
 
+				m_movementSpeed = 3.0f;
                 m_Particles.startColor = Color.red;
                 if (m_Particles.isStopped)
                 {
@@ -121,13 +172,16 @@ public class PlayerManager : MonoBehaviour {
             }
             else if (e_PlayerType == playerType.TWILIGHT)
             {
-                m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
+                //m_CurrentHealth -= m_HealthToModifyPerSecond * Time.deltaTime;
 
+				m_movementSpeed = 3.0f;
                 m_Particles.startColor = Color.red;
                 if (m_Particles.isStopped)
                 {
                     m_Particles.Play();
                 }
+
+
 
                 if (m_CurrentHealth < 0)
                 {
@@ -136,9 +190,11 @@ public class PlayerManager : MonoBehaviour {
             }
             else
             {
-                m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
+               //m_CurrentHealth += m_HealthToModifyPerSecond * Time.deltaTime;
 
+				m_movementSpeed = 7.0f;
                 m_Particles.startColor = Color.green;
+
 
                 if (m_CurrentHealth > m_HealthMax)
                 {
@@ -361,6 +417,11 @@ public class PlayerManager : MonoBehaviour {
         return m_CurrentHealth;
     }
 
+	public float GetCurrentEnergy()
+	{
+		return m_CurrentEnergy;
+	}
+
     //-------------------------------------------------------------------------
 
     public void MinusCurrentHealth(float minusVal)
@@ -378,6 +439,21 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+	public void MinusCurrentEnergy(float minusVal)
+	{
+		if (minusVal < 0)
+		{
+			Debug.Log("ERROR: Cannot minus health with a negative value");
+			return;
+		}
+		
+		m_CurrentEnergy -= minusVal;
+		if (m_CurrentEnergy < 0)
+		{
+			m_CurrentEnergy = 0;
+		}
+	}
+
     //-------------------------------------------------------------------------
 
     public void PlusCurrentHealth(float plusVal)
@@ -394,6 +470,21 @@ public class PlayerManager : MonoBehaviour {
             m_CurrentHealth = m_HealthMax;
         }
     }
+
+	public void PlusCurrentEnergy(float plusVal)
+	{
+		if (plusVal < 0)
+		{
+			Debug.Log("ERROR: Cannot plus health with a negative value");
+			return;
+		}
+		
+		m_CurrentEnergy += plusVal;
+		if (m_CurrentEnergy > m_EnergyMax)
+		{
+			m_CurrentEnergy = m_EnergyMax;
+		}
+	}
 
     //-------------------------------------------------------------------------
 
@@ -424,7 +515,7 @@ public class PlayerManager : MonoBehaviour {
         audio.Play();
         m_EquippedWeapon = weapon;
         m_EquippedWeaponScript = m_EquippedWeapon.GetComponent<WeaponScript>();
-
+		m_EquippedWeaponScript.player = this.gameObject;
         // Place the weapon in the correct place        
         m_EquippedWeapon.transform.parent = transform;
         m_EquippedWeapon.transform.localRotation = Quaternion.Euler(m_EquippedWeaponScript.m_BaseRotation);
