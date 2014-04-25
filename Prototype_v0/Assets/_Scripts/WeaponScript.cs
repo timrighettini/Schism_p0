@@ -22,7 +22,9 @@ public class WeaponScript : MonoBehaviour
     
 	public GameObject player;
 
-    #endregion
+	public AudioClip chandshake;
+	public AudioClip chandsmash;
+	#endregion
 
 
 
@@ -53,18 +55,24 @@ public class WeaponScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy") && e_PickupState != PickupState.ON_GROUND)
         {
-            BasicEnemyBehavior enemy = other.gameObject.GetComponent<BasicEnemyBehavior>();
+
+			BasicEnemyBehavior enemy = other.gameObject.GetComponent<BasicEnemyBehavior>();
             enemy.DestroyEnemy();
 			player.GetComponent<PlayerManager>().PlusCurrentHealth(5);
         }
 		if (other.gameObject.CompareTag("Rope"))
 		{
+			audio.PlayOneShot(chandshake);
+			//audio.Play(chandshake);
 			Debug.Log("rope");
 			Destroy(other.gameObject);
-			if(GameObject.FindGameObjectWithTag("Chandalier"))
-				if(!GameObject.FindGameObjectWithTag("Chandalier").GetComponent<Rigidbody>())
+			GameObject[] Chandelierpieces=GameObject.FindGameObjectsWithTag("Chandalier");
+			if(Chandelierpieces[0])
+				for(int i=0;i<Chandelierpieces.Length;i++)
+				if(!Chandelierpieces[i].GetComponent<Rigidbody>())
 				{
-					GameObject.FindGameObjectWithTag("Chandalier").AddComponent<Rigidbody>();
+					//audio.Stop();
+					Chandelierpieces[i].AddComponent<Rigidbody>();
 
 
 				}

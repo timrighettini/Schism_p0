@@ -13,7 +13,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     public float m_DamageToTake;
     public float m_PlayerPushBackMagnitude;
     public float m_DeathForce;
-
+	public AudioClip Enemyshout;
     public Vector3 m_StartingMovement = Vector3.zero;
     public float m_DelayForStartingMovement = 0.0f;
 
@@ -121,6 +121,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
             player.StunOnCollision();
             other.gameObject.rigidbody.AddForce(Vector3.up * m_PlayerPushBackMagnitude);
             other.gameObject.rigidbody.AddForce(transform.forward * m_PlayerPushBackMagnitude);
+			audio.PlayOneShot(Enemyshout);
         }
     }
 

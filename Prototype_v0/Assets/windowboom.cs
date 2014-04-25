@@ -4,6 +4,7 @@ using System.Collections;
 public class windowboom : MonoBehaviour {
 
 	public GameObject wall,cb1,cb2,cb3;
+	public AudioClip glassshatter;
 	// Use this for initialization
 	void Start () {
 	
@@ -44,6 +45,7 @@ public class windowboom : MonoBehaviour {
 			cb1.gameObject.rigidbody.AddForce(new Vector3(1000,0,0));
 			cb2.gameObject.rigidbody.AddForce(new Vector3(1000,0,0));
 			cb3.gameObject.rigidbody.AddForce(new Vector3(1000,0,0));
+			audio.PlayOneShot(glassshatter);
 		}
 	}
 
